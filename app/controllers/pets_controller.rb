@@ -50,7 +50,7 @@ class PetsController < ApplicationController
   #   "pet": {
   #     "name": "hammy",
   #     "age": 22,
-  #     "human": "chantelle
+  #     "human": "chantelle"
   #   }
   # }
 
@@ -59,6 +59,7 @@ class PetsController < ApplicationController
     if pet.save
       render json: { id: pet.id }
     else
+      render_error(:bad_request, pet.errors.messages)
     end
   end
 
