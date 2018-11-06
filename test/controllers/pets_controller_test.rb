@@ -4,8 +4,14 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
   # describe PetsController do
   #end
   describe "index" do
+    PET_FIELDS = %w(id name age human).sort
     # These tests are a little verbose - yours do not need to be
     # this explicit.
+
+    #One test for each behavior you're interested in
+    #arrange step different - different test
+    #act step different - different describe block
+    #assert test just follows act
     it "is a real working route" do
       get pets_path
       must_respond_with :success
@@ -14,6 +20,10 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
       body = JSON.parse(response.body)
       expect(body).must_be_kind_of Array
       expect(body.length).must_equal Pet.count
+
+      body.each do |pet|
+        expect(pet.keys.sort).must_equal PET_FIELDS
+      end
     end
 
   #   it "returns json" do
