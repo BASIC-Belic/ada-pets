@@ -1,57 +1,21 @@
 require 'test_helper'
 
 class PetsControllerTest < ActionDispatch::IntegrationTest
+  # describe PetsController do
+  #end
   describe "index" do
     # These tests are a little verbose - yours do not need to be
     # this explicit.
     it "is a real working route" do
       get pets_path
       must_respond_with :success
+      expect(response.header['Content-Type']).must_include 'json'
+
+      body = JSON.parse(response.body)
+      expect(body).must_be_kind_of Array
+      expect(body.length).must_equal Pet.count
     end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
   #   it "returns json" do
   #     get pets_path
   #     expect(response.header['Content-Type']).must_include 'json'

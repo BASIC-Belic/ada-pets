@@ -59,7 +59,7 @@ class PetsController < ApplicationController
     if pet.save
       render json: { id: pet.id }
     else
-      render_error(:bad_request, pet.errors.messages)
+      render_errors(:bad_request, pet.errors.messages)
     end
   end
 
