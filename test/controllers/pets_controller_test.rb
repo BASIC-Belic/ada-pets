@@ -12,6 +12,8 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
     #arrange step different - different test
     #act step different - different describe block
     #assert test just follows act
+    #Be more explicit in test for API
+    #JSON returns as string
     it "is a real working route" do
       get pets_path
       must_respond_with :success
@@ -26,82 +28,97 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
       end
     end
 
-  #   it "returns json" do
-  #     get pets_path
-  #     expect(response.header['Content-Type']).must_include 'json'
-  #   end
+    it 'returns an empty array when there are no pets' do
+      pest = Pet.all
+      pets.each do |pet|
+        pet.destroy
+      end
 
-  #   it "returns an Array" do
-  #     get pets_path
+      get pets_path
+      must_respond_with :success
 
-  #     body = JSON.parse(response.body)
-  #     body.must_be_kind_of Array
-  #   end
+      body = JSON.parse(response.body)
+      expect(body).must_be_kind_of Array
+      expect(body.length).must_equal 0
+    end
 
-  #   it "returns all of the pets" do
-  #     get pets_path
 
-  #     body = JSON.parse(response.body)
-  #     body.length.must_equal Pet.count
-  #   end
+    #   it "returns json" do
+    #     get pets_path
+    #     expect(response.header['Content-Type']).must_include 'json'
+    #   end
 
-  #   it "returns pets with exactly the required fields" do
-  #     keys = %w(age human id name)
-  #     get pets_path
-  #     body = JSON.parse(response.body)
-  #     body.each do |pet|
-  #       pet.keys.sort.must_equal keys
-  #     end
-  #   end
-  # end
+    #   it "returns an Array" do
+    #     get pets_path
 
-  # describe "show" do
-  #   # This bit is up to you!
-  #   it "can get a pet" do
-  #     get pet_path(pets(:two).id)
-  #     must_respond_with :success
-  #   end
-  # end
+    #     body = JSON.parse(response.body)
+    #     body.must_be_kind_of Array
+    #   end
 
-  # describe "create" do
-  #   let(:pet_data) {
-  #     {
-  #       name: "Jack",
-  #       age: 7,
-  #       human: "Captain Barbossa"
-  #     }
-  #   }
+    #   it "returns all of the pets" do
+    #     get pets_path
 
-  #   it "creates a new pet given valid data" do
-  #     expect {
-  #     post pets_path, params: { pet: pet_data }
-  #   }.must_change "Pet.count", 1
+    #     body = JSON.parse(response.body)
+    #     body.length.must_equal Pet.count
+    #   end
 
-  #     body = JSON.parse(response.body)
-  #     expect(body).must_be_kind_of Hash
-  #     expect(body).must_include "id"
+    #   it "returns pets with exactly the required fields" do
+    #     keys = %w(age human id name)
+    #     get pets_path
+    #     body = JSON.parse(response.body)
+    #     body.each do |pet|
+    #       pet.keys.sort.must_equal keys
+    #     end
+    #   end
+    # end
 
-  #     pet = Pet.find(body["id"].to_i)
+    # describe "show" do
+    #   # This bit is up to you!
+    #   it "can get a pet" do
+    #     get pet_path(pets(:two).id)
+    #     must_respond_with :success
+    #   end
+    # end
 
-  #     expect(pet.name).must_equal pet_data[:name]
-  #     must_respond_with :success
-  #   end
+    # describe "create" do
+    #   let(:pet_data) {
+    #     {
+    #       name: "Jack",
+    #       age: 7,
+    #       human: "Captain Barbossa"
+    #     }
+    #   }
 
-  #   it "returns an error for invalid pet data" do
-  #     # arrange
-  #     pet_data["name"] = nil
+    #   it "creates a new pet given valid data" do
+    #     expect {
+    #     post pets_path, params: { pet: pet_data }
+    #   }.must_change "Pet.count", 1
 
-  #     expect {
-  #     post pets_path, params: { pet: pet_data }
-  #   }.wont_change "Pet.count"
+    #     body = JSON.parse(response.body)
+    #     expect(body).must_be_kind_of Hash
+    #     expect(body).must_include "id"
 
-  #     body = JSON.parse(response.body)
+    #     pet = Pet.find(body["id"].to_i)
 
-  #     expect(body).must_be_kind_of Hash
-  #     expect(body).must_include "errors"
-  #     expect(body["errors"]).must_include "name"
-  #     must_respond_with :bad_request
-  #   end
+    #     expect(pet.name).must_equal pet_data[:name]
+    #     must_respond_with :success
+    #   end
+
+    #   it "returns an error for invalid pet data" do
+    #     # arrange
+    #     pet_data["name"] = nil
+
+    #     expect {
+    #     post pets_path, params: { pet: pet_data }
+    #   }.wont_change "Pet.count"
+
+    #     body = JSON.parse(response.body)
+
+    #     expect(body).must_be_kind_of Hash
+    #     expect(body).must_include "errors"
+    #     expect(body["errors"]).must_include "name"
+    #     must_respond_with :bad_request
+    #   end
 
   end
 end
