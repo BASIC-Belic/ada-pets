@@ -21,8 +21,6 @@ class PetsController < ApplicationController
     if pets
       # render json: pets.as_json(only: [:id, :name, :age, :human]), status: :ok
       render json: jsonify(pets), status: :ok
-    else
-      #something else, status: :not_found
     end
   end
 
@@ -35,8 +33,8 @@ class PetsController < ApplicationController
       # head :not_found
       # render json {}, status: :not_found
       # render json {errors: {pet_id: ["No such pet"]}}, status: :not_found
-
-      # render json {errors: {pet_id: ["No such pet"]}}, status: :not_found
+    else
+      render_errors(:not_found, {pet_id: ["no such pet"]})
     end
   end
 
