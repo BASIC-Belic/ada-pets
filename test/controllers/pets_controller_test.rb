@@ -29,10 +29,8 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
     end
 
     it 'returns an empty array when there are no pets' do
-      pest = Pet.all
-      pets.each do |pet|
-        pet.destroy
-      end
+      #destroy all pets
+      Pet.destroy_all
 
       get pets_path
       must_respond_with :success
