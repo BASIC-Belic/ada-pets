@@ -28,15 +28,15 @@ class PetsControllerTest < ActionDispatch::IntegrationTest
     #JSON returns as string
     it "is a real working route" do
       get pets_path
-      must_respond_with :success
+      # must_respond_with :success
       # expect(response.header['Content-Type']).must_include 'json'
       #
       # body = JSON.parse(response.body)
       # expect(body).must_be_kind_of Array
 
       body = check_response(expected_type: Array)
-      expect(body.length).must_equal Pet.count
 
+      expect(body.length).must_equal Pet.count
       body.each do |pet|
         expect(pet.keys.sort).must_equal PET_FIELDS
       end
